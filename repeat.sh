@@ -20,7 +20,7 @@ mkdir doc
 #save documents like papers
 git add doc
 
-Notebook
+mkdir Notebook
 #notes for myself
 git add Notebook
  
