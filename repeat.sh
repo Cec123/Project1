@@ -10,21 +10,20 @@ git add datasets
 
 mkdir scripts
 #all of my scripts, new script saved for every day having the date in the name of the scripts.
-
 git add scripts
 
 mkdir results
 #saving my results during the process of building of the code of my predictor.
-
 git add results
 
 mkdir doc
 #save documents like papers
-
 git add doc
 
-mkdir Notebook
-# date: what I did that day
-
+Notebook
+#notes for myself
 git add Notebook
-
+ 
+mkdir diary
+# date: what I did that day
+git add diary
