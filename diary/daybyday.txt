@@ -1,0 +1,25 @@
+2018-02-19
+- Find 5 articles about secondary structure prediciton of proteins.
+- Define characteristics of signalpeptides in eukaryotes,
+alpha-helices, beta-sheets and turns, omega-loops.
+- Read about SKlearn.
+
+2018-02-20
+-Parse my data.
+-Read about input vector and machine learning on links from bioinfo.
+
+2018-02-21
+- Read more about SKlearn.
+- Create a brief mindmap over the project (on paper).
+
+2018-02-22
+- Create a projectplan.
+- Start writing on background for report.
+- Find three more articles and submit the five articles.
+- Create onehotencoder.
+
+2018-02-23
+- Hand in projectplan and references for the five articles.
+- Attend at Journal Club.
+- Attend at Elofsson´s group meeting at scilife.
+- Look into how I will create the windows for my sequences.
