@@ -23,3 +23,8 @@ alpha-helices, beta-sheets and turns, omega-loops.
 - Attend at Journal Club.
 - Attend at Elofsson´s group meeting at scilife.
 - Look into how I will create the windows for my sequences.
+
+2018-02-26
+- read through paper that I will present, again.
+- Create a sliding window for my sequences.
+- Convert my windows to codes of ones and zeros.
