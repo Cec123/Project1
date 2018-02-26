@@ -1,5 +1,6 @@
 
 def parse_data(data):
+    
     filen = open(data, "r")
     data_topology = list()
     data_pepseq = list()
@@ -23,60 +24,104 @@ def parse_data(data):
                 bib_aa[key] = element
                     
                 seq = bib_aa.values()
+    
+    #print(sequences)
                     
 
     filen.close()
     return seq
 #-------------------------------------------------------------------------------
-from numpy import argmax
+def sliding_window(data):
+    import numpy as np
+    filen = open(data, "r")
+    #print(filen)
 
-def letter_to_number(data):
-    sequences = parse_data(data)
-    #print(sequences)
     aminoacids = "ARNDCQEGHILKMFPSTWYV"
-    onehot_encoded = list()
+    aminoacids1 = "ARNDCQEGHILKMFPSTWYV"
+    key =list(aminoacids)
+    #print(key)
     
-#make each character into a number, since enumerate is used it will be an array of numbers, starting at 0 -->n-1
-    char_to_int = dict((c, i) for i, c in enumerate(aminoacids))
-    int_to_char = dict((i, c) for i, c in enumerate(aminoacids))
+#encoded aminoacids in matrix
+    matris = np.zeros((len(aminoacids), len(aminoacids1)))
+    for i in range(len(aminoacids)):
+        for j in range(len(aminoacids1)):
+            if aminoacids[i] == aminoacids1[j]:
+                matris[i,j]=1        
 
-#use the char_to_int for my sequences
-    for element in sequences:
-        encoded_seq = [char_to_int[char] for char in element]
-        #print(encoded_seq)
-
-#for each value that represents one aminoacid:
-    for value in encoded_seq:
-#create an array with the length of all aminoacids, were each position is set to zero
-        aa = [0 for _ in range(len(aminoacids))]
-        #print(aa)
-#for each value(aminoacid) set the value to one 
-        aa[value] = 1
-#put each array of ones and zeros into the defined list
-        onehot_encoded.append(aa)
-    #print(onehot_encoded)
-#-------------------------------------------------------------------------------
-from numpy import array
-from numpy import argmax
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import OneHotEncoder
-
-
-def l_to_n(data):
-    sequences = parse_data(data)
     
+    listakod =list()
+#take out each row, put each row in a dictionary later with its aa as key.
+    for arrays in matris:       
+        listakod.append(arrays)
+    #print(listakod)
+    bib1= dict(zip(key, listakod))
+    bib1["0"] = np.zeros(20, dtype=int)
+    #print(bib1)
+#---------------------------------
 
-          
+#create sliding window
+
+    win_size = 3
+    pad = win_size//2
+    seq = "ASQRHIL"
+    windowlist= list()
+
+    for i in range(len(seq)):
+        #define interval in sequence were the first ans last letter in seq not included(pad=1):
+        if i>pad and i< len(seq)-pad:
+            #print(i)
+            #append each window to the list called window:
+            windowlist.append(seq[i-pad:i+pad+1])
+    #print(window)
+            
+    #handle the start:
+        elif i<= pad:
+            the_window = seq[:i + pad +1]
+            #print(the_window)
+            needzeros = win_size - len(the_window)
+            #print(needzeros)
+            windowlist.append("0"*needzeros + the_window)
+            #print(window)
+            
+    #handle the end:
+        else:
+            #print(i)
+            the_window = seq[i-1:]
+            #print(the_window)
+            needzeros = win_size - len(the_window)
+            #print(needzeros)
+            windowlist.append(the_window + "0"*needzeros)
+            #print(windowlist)
+#---------------------------------------------------------------
+#connvert my windowns to the codes of 1s and 0s.
+        #print(bib1)
+        map_windows = list()
+
+        for elements in windowlist:
+            a = list()
+            for letters in elements:
+                b = bib1[letters]
+                a.append(b)
+            a = [letters for elements in a for letters in elements]
+            map_windows.append(a)
+            print(map_windows)
+        #print(len(map_windows))
+        
         
 
-    
-   
-    
+        
+        
+ 
+            
+            
+            
+
 
 if __name__ == '__main__':
-    parse_data("testa.txt")
-    #letter_to_number("testa.txt")
-    l_to_n("testa.txt")
+    #parse_data("testa.txt")
+    sliding_window("kort.txt")
+    
+    
     
     
 
