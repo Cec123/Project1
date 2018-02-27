@@ -28,3 +28,8 @@ alpha-helices, beta-sheets and turns, omega-loops.
 - read through paper that I will present, again.
 - Create a sliding window for my sequences.
 - Convert my windows to codes of ones and zeros.
+
+2018-02-27
+- finished my x-vector, created my y-vector.
+- trained my model using svm and translated my output of the model to a serie of S (signalpeptid) and M (mature protein).
+- creating a powerpoint for my article. 
