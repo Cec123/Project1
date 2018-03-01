@@ -39,3 +39,12 @@ alpha-helices, beta-sheets and turns, omega-loops.
 - Dividided my code into several functions.
 - Practicing my presentation.
 - Presented my article for classmates and giving feedback. 
+
+2018-03-01
+- fixed problem in my code when handling  with X, B, Z.
+- not being able to run my whole file (problem with lines in the file I am handed?)
+- created a parser for new input data, with no secondary structure.
+- Writing feedbacks of yesterdays oral presentations.
+- Trying to save my x-vector and y-vector in separate file in order to do the 
+training and predicting in another file than the file with all my funcitons.
+
