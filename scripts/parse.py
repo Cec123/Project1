@@ -130,39 +130,40 @@ def parse_data(data):
 #-----------------------------------------------------------------------
 #training
     from sklearn import svm
+    import pickle
+    from sklearn import model_selection
     X= np.array(training_list)
     #print(X)
     Y= topology_prediction_nr
     #print(Y)       
-    clf = svm.SVC()
+    model = svm.SVC()
+    model.fit(X, Y)
     
-    clf.fit(X, Y)
-    result= clf.predict(X)
+    result= model.predict(X)
     numbers_to_topology = {1:"M", 2:"S"}
     topology_prediction_letter = list()
 
     for numbers in result:
         c = numbers_to_topology[numbers]
         topology_prediction_letter.extend(c)
+    filename = "predictor_model.sav"
+    pickle.dump(model, open(filename, "wb"))
 
     #print(topology_prediction_letter)
 
+    
+
 #---------------------------------------------------------------------
 
-#def test_new_input(data):
 
-    #filen = open(data, "r")
-    #result = clf2.predict(filen)
-    
 
 
 
 if __name__ == '__main__':
     
-   parse_data("short.txt")
+    parse_data("kort.txt")
 
-    #test_new_input("kort.txt")
-    
+
     
     
     

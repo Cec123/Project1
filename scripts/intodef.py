@@ -1,8 +1,11 @@
 import numpy as np
 from sklearn import svm
+import pickle
+from sklearn import model_selection
 
 def parse_data(data):
     filen = open(data, "r")
+    #print(filen)
     data_topology = list()
     data_pepseq = list()
     keys_lista =list()
@@ -15,9 +18,9 @@ def parse_data(data):
             temp_key = key
             #print(temp_key)
         elif nr %3 == 1:
-            if "Z" not in line and "B" not in line and "X" not in line:
-                    temp_seq = line[:-1]
-                    #print(temp_seq)
+            if "Z" not in line and "B" not in line and "X" not in line and "U" not in line and "t" not in line:
+                temp_seq = line[:-1]
+                #print(temp_seq)
             else:
                 temp_seq = ''
             #print(temp_seq)
@@ -25,12 +28,16 @@ def parse_data(data):
             topo = line[:-1]
             #print(topo)
             keys_lista.append(temp_key)
-    
             data_pepseq.append(temp_seq)
             #print(data_pepseq)
             data_topology.append(topo)
-    #print(data_topology)
+            
+    #for elements in data_pepseq:
+        #print(len(elements))
+
+    #print(data_pepseq, len(data_topology))
     #print(keys_lista)
+              
     return data_topology, data_pepseq
 
 def encode_aa():
@@ -46,8 +53,7 @@ def encode_aa():
             if aminoacids[i] == aminoacids[j]:
                 matris[i,j]=1        
     
-    
-    
+
 #take out each row, put each row in a dictionary later with its aa as key.
     for arrays in matris:       
         listakod.append(arrays)
@@ -57,13 +63,11 @@ def encode_aa():
     #print(bib1)
     return bib1
 
-def sliding_windows(data, dicti):
+def sliding_windows(data):
     win_size = 3
     pad = win_size//2
-    training_list = []
-    
+    windowlist= list()
     for seq in data:
-        windowlist= list()
         for i in range(len(seq)):
     #define interval in sequence were the first ans last letter in seq not included(pad=1):
             if i>pad and i< len(seq)-pad:
@@ -83,20 +87,27 @@ def sliding_windows(data, dicti):
                 needzeros = win_size - len(the_window)
                 #print(needzeros)
                 windowlist.append(the_window + "0"*needzeros)
-                #print(windowlist)
+    #print(len(windowlist))
+                
+    return windowlist
 
-        for elements in windowlist:
-            a = list()
-            for letters in elements:
-                b = dicti[letters]
-                a.extend(b)
-            training_list.append(a)
+
+def convert_windows(data, dicti):
+    training_list = []
+    for elements in data:
+        a = list()
+        for letters in elements:
+            b = dicti[letters]
+            a.extend(b)
+        
+        training_list.append(a)
 
     #print(len(training_list))
+    np.savez("xvector", training_list)
     return training_list
+
     
 def y_vector(data):
-    
     topology_to_numbers = {".":1,"t":1,"S":2}
     topology_prediction_nr = list()
     #print(data_topology)
@@ -107,34 +118,76 @@ def y_vector(data):
             y = topology_to_numbers[letters]
             topology_prediction_nr.append(y)
     #print(topology_prediction_nr)
+    np.savez("yvector", topology_prediction_nr)
     return topology_prediction_nr
 
-def training(x, y):
+
+def training_model(x, y):
     X= np.array(x)
     #print(X)
     Y= y
     #print(Y)       
-    clf = svm.SVC()
+    model = svm.SVC()
+    model.fit(X, Y)
     
-    clf.fit(X, Y)
-    result= clf.predict(X)
+    result= model.predict(X)
+
     numbers_to_topology = {1:"M", 2:"S"}
     topology_prediction_letter = list()
-
     for numbers in result:
         c = numbers_to_topology[numbers]
         topology_prediction_letter.extend(c)
 
-    #print(topology_prediction_letter)
+    #print("Predicted output:", topology_prediction_letter)
+    filename = "model_predictor.sav"
+    pickle.dump(model, open(filename, "wb"))
 
+    return filename
+#===============================================================================================
+"""
+def parse_newinput(inputs):
+    filen = open(inputs, "r")
+    data_pepseq = list()
+    keys_lista =list()
+   
+    temp_key = ''
+    temp_seq = ''
+    for nr, line in enumerate(filen):
+        if line.startswith(">") == True:
+            key = line[1:-1]
+            temp_key = key
+            #print(temp_key)
+        elif nr %3 == 1:
+            if "Z" not in line and "B" not in line and "X" not in line:
+                    temp_seq = line[:-1]
+                    #print(len(temp_seq))
+                    #print(temp_seq)
+                    data_pepseq.append(temp_seq)
+                    keys_lista.append(temp_key)
 
+    return data_pepseq
+
+def encode_input(inputs):
+    dicti = encode_aa()
+    windows = sliding_windows(inputs)
+    #print(windows)
+    convert = convert_windows(windows, dicti)
+    #print(len(convert))
+    #print(convert)
     
-    
+#def try_predicting(data):
+    #loaded_model = pickle.load("model_predictor.sav","rb")
 
+"""
 if __name__ == '__main__':
-   a, b = parse_data("kort.txt")
+   top, seq = parse_data("kort_euk.txt")
+   #print(parse_data("kort.txt")) 
    p = encode_aa()
-   c = sliding_windows(b,p)
-   d = y_vector(a)
-   training(c, d)
+   c = sliding_windows(seq)
+   d = convert_windows(c,p)
+   e = y_vector(top)
+   training_model(d, e)
+   #n = parse_newinput("newinput.txt")
+   #m= encode_input(n)
+   #try_predicting(m)
 
