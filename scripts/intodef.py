@@ -1,8 +1,8 @@
+import numpy as np
+from sklearn import svm
 
 def parse_data(data):
-
     filen = open(data, "r")
-
     data_topology = list()
     data_pepseq = list()
     keys_lista =list()
@@ -10,10 +10,8 @@ def parse_data(data):
     temp_key = ''
     temp_seq = ''
     for nr, line in enumerate(filen):
-
         if line.startswith(">") == True:
             key = line[1:-1]
-            #keys_lista.append(line[1:-1])
             temp_key = key
             #print(temp_key)
         elif nr %3 == 1:
@@ -23,8 +21,6 @@ def parse_data(data):
             else:
                 temp_seq = ''
             #print(temp_seq)
-            #data_pepseq.append(line[:-1])
-            #print(data_pepseq)
         elif nr%3 ==2 and len(temp_seq)>0:
             topo = line[:-1]
             #print(topo)
@@ -35,24 +31,22 @@ def parse_data(data):
             data_topology.append(topo)
     #print(data_topology)
     #print(keys_lista)
+    return data_topology, data_pepseq
 
-#-------------------------------------------------------------------------------
-#Encode aminoacids to numbers:
-    import numpy as np
-
+def encode_aa():
     aminoacids = "ARNDCQEGHILKMFPSTWYV"
-    aminoacids1 = "ARNDCQEGHILKMFPSTWYV"
     key =list(aminoacids)
     #print(key)
+    listakod =list()
     
 #encoded aminoacids in matrix
-    matris = np.zeros((len(aminoacids), len(aminoacids1)), dtype=int)
+    matris = np.zeros((len(aminoacids), len(aminoacids)), dtype=int)
     for i in range(len(aminoacids)):
-        for j in range(len(aminoacids1)):
-            if aminoacids[i] == aminoacids1[j]:
+        for j in range(len(aminoacids)):
+            if aminoacids[i] == aminoacids[j]:
                 matris[i,j]=1        
     
-    listakod =list()
+    
     
 #take out each row, put each row in a dictionary later with its aa as key.
     for arrays in matris:       
@@ -61,36 +55,26 @@ def parse_data(data):
     bib1= dict(zip(key, listakod))
     bib1["0"] = np.zeros(20, dtype=int)
     #print(bib1)
-#---------------------------------------------------------------------------------------
-#create sliding window
+    return bib1
+
+def sliding_windows(data, dicti):
     win_size = 3
     pad = win_size//2
-
-  #  seq = data_pepseq[0]
     training_list = []
-    #print(data_pepseq)
-    for seq in data_pepseq:
-
-        # print(seq)
+    
+    for seq in data:
         windowlist= list()
-
         for i in range(len(seq)):
     #define interval in sequence were the first ans last letter in seq not included(pad=1):
             if i>pad and i< len(seq)-pad:
-                #print(i)
                 #append each window to the list called window:
                 windowlist.append(seq[i-pad:i+pad+1])
-        #print(window)
                 
         #handle the start:
             elif i<= pad:
                 the_window = seq[:i + pad +1]
-                #print(the_window)
                 needzeros = win_size - len(the_window)
-                #print(needzeros)
-                windowlist.append("0"*needzeros + the_window)
-                #print(window)
-                
+                windowlist.append("0"*needzeros + the_window)               
         #handle the end:
             else:
                 #print(i)
@@ -101,38 +85,34 @@ def parse_data(data):
                 windowlist.append(the_window + "0"*needzeros)
                 #print(windowlist)
 
-#--------------------------------------------------------------------------------
-    #connvert my windows to the codes of 1s and 0s.
-
         for elements in windowlist:
-            #print(elements)
             a = list()
             for letters in elements:
-                b = bib1[letters]
+                b = dicti[letters]
                 a.extend(b)
-            #print(a) 
             training_list.append(a)
 
-    #print(training_list)
-#------------------------------------------------------------------------------------
-# Create the y vector:
+    #print(len(training_list))
+    return training_list
+    
+def y_vector(data):
     
     topology_to_numbers = {".":1,"t":1,"S":2}
     topology_prediction_nr = list()
     #print(data_topology)
 
-    for elements in data_topology:
+    for elements in data:
         for letters in elements:
             #print(letters)
             y = topology_to_numbers[letters]
             topology_prediction_nr.append(y)
     #print(topology_prediction_nr)
-#-----------------------------------------------------------------------
-#training
-    from sklearn import svm
-    X= np.array(training_list)
+    return topology_prediction_nr
+
+def training(x, y):
+    X= np.array(x)
     #print(X)
-    Y= topology_prediction_nr
+    Y= y
     #print(Y)       
     clf = svm.SVC()
     
@@ -147,29 +127,14 @@ def parse_data(data):
 
     #print(topology_prediction_letter)
 
-#---------------------------------------------------------------------
 
-#def test_new_input(data):
-
-    #filen = open(data, "r")
-    #result = clf2.predict(filen)
     
-
-
+    
 
 if __name__ == '__main__':
-    
-   parse_data("short.txt")
-
-    #test_new_input("kort.txt")
-    
-    
-    
-    
-    
-    
-
-
-
-
+   a, b = parse_data("kort.txt")
+   p = encode_aa()
+   c = sliding_windows(b,p)
+   d = y_vector(a)
+   training(c, d)
 
