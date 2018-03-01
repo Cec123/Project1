@@ -33,3 +33,9 @@ alpha-helices, beta-sheets and turns, omega-loops.
 - finished my x-vector, created my y-vector.
 - trained my model using svm and translated my output of the model to a serie of S (signalpeptid) and M (mature protein).
 - creating a powerpoint for my article. 
+
+2018-02-28
+- handled sequences consiting X, B and/or Z.
+- Dividided my code into several functions.
+- Practicing my presentation.
+- Presented my article for classmates and giving feedback. 
