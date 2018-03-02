@@ -37,7 +37,10 @@ def encode_input(inputs):
     
 def training_model(file, file2):
     
-    x = np.load(file)
+    x = np.load(file,"r")
+
+    print(x)
+    
     
     y = np.load(file2)
 
