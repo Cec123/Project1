@@ -47,9 +47,17 @@ def encode_aa():
     bib1= dict(zip(key, listakod))
     bib1["0"] = np.zeros(20, dtype=int)
     bib1["X"] = 1/20*np.ones(20, dtype=int)
-    #bib1["B"] = 2/20
-    #bib1["Z"] = 2/20
-         
+    
+    d = bib1.get("D")
+    n = bib1.get("N")
+    c= ((d + n)/2)
+    bib1["B"] = c
+
+    e = bib1.get("E")
+    q = bib1.get("Q")
+    s = ((e+q))/2
+    bib1["Z"] = s
+
     #print(bib1)
     return bib1
 
@@ -171,7 +179,7 @@ def encode_input(inputs):
 
 """
 if __name__ == '__main__':
-   top, pep = parse_data("short.txt")
+   top, pep = parse_data("kort_euk.txt")
    #print(parse_data("kort.txt")) 
    p = encode_aa()
    c = sliding_windows(pep)
