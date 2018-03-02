@@ -48,3 +48,7 @@ alpha-helices, beta-sheets and turns, omega-loops.
 - Trying to save my x-vector and y-vector in separate file in order to do the 
 training and predicting in another file than the file with all my funcitons.
 
+2018-03-02
+-Journal club meetings.
+- Trying to solve the problem with X, B, Z.
+
