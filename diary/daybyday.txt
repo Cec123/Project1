@@ -52,3 +52,10 @@ training and predicting in another file than the file with all my funcitons.
 -Journal club meetings.
 - Trying to solve the problem with X, B, Z.
 
+2018-03-05
+- Changing my parser.
+- Fixing with aminoacid U.
+- Modifying my parser so that it only adds topology sequences and peptide sequences that are of the sam lenghts. 
+- Modifying my code so that ut only collects the first 70 aminoacids (in order to make it less biased towards the mature protein sequence), this also reduced the inputdata.
+- Correcting my datasets (manually) so that peptide sequences and topology sequences are on separate rows.
+- Running 3-fold crossvalidation from windowsize of 3-32 in the steps of 4. 
