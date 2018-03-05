@@ -11,7 +11,7 @@ def parse_data(data):
     pep = list()
     keys =list()
 
-    with open("short.txt") as f:
+    with open(data) as f:
         for line in islice(f,0,None,3):
             keys.append(line[1:-1])
     with open(data) as f:

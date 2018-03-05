@@ -11,7 +11,7 @@ def parse_data(data):
     pep = list()
     keys =list()
 
-    with open("short.txt") as f:
+    with open(data) as f:
         for line in islice(f,0,None,3):
             keys.append(line[1:-1])
     with open(data) as f:
@@ -22,7 +22,7 @@ def parse_data(data):
         for line in islice(f,2,None,3):
             top.append(line[1:-1])
 
-    #print(pep, top, keys)
+    print(top, keys)
     return top, pep
 
 
@@ -58,11 +58,13 @@ def encode_aa():
     s = ((e+q))/2
     bib1["Z"] = s
 
+    C= bib1.get("C")
+    bib1["U"] = C
     #print(bib1)
     return bib1
 
 def sliding_windows(data):
-    win_size = 3
+    win_size = 15
     pad = win_size//2
     windowlist= list()
     for seq in data:
@@ -94,6 +96,7 @@ def convert_windows(data, dicti):
     training_list = []
     for elements in data:
         a = list()
+        #print(elements)
         for letters in elements:
             b = dicti[letters]
     
@@ -137,7 +140,7 @@ def training_model(x, y):
         c = numbers_to_topology[numbers]
         topology_prediction_letter.extend(c)
 
-    print("Predicted output:", topology_prediction_letter)
+    #print("Predicted output:", topology_prediction_letter)
     filename = "model_predictor.sav"
     pickle.dump(model, open(filename, "wb"))
 
@@ -179,7 +182,7 @@ def encode_input(inputs):
 
 """
 if __name__ == '__main__':
-   top, pep = parse_data("kort_euk.txt")
+   top, pep = parse_data("euk-signal.3line.txt")
    #print(parse_data("kort.txt")) 
    p = encode_aa()
    c = sliding_windows(pep)
