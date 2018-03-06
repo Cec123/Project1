@@ -49,5 +49,5 @@ def  go(data, wz):
 
 if __name__ == '__main__':
    n = parse_newinput("oneprot.txt")
-   go(n,27)
+   go(n, 27)
    

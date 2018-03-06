@@ -21,7 +21,7 @@ def all_in_one(data, wz):
     
 def accuracy(data, wz):
     
-    for wz in range(3,32,4):
+    for wz in range(5,39,2):
         clf = svm.SVC()
         X, Y = all_in_one(data, wz)
         scores = cross_val_score(clf, X, Y, cv=3, verbose=True)
@@ -31,6 +31,6 @@ def accuracy(data, wz):
 
 
 if __name__ == '__main__':
-    x, y = all_in_one("biggerset.txt", 3)
-    accuracy("biggerset.txt", 3)
+    x, y = all_in_one("euk-3line.txt", 5)
+    accuracy("biggerset.txt", 5)
 

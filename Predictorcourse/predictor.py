@@ -29,9 +29,9 @@ def parse_data(data):
             #print(topo)
             if len(topo) == len(temp_seq):
                 keys.append(temp_key)
-                pep.append(temp_seq[:90])
+                pep.append(temp_seq[:80])
                 #print(data_pepseq)
-                topology.append(topo[:90])
+                topology.append(topo[:80])
                 
                 
     #print(keys, topology)
@@ -148,9 +148,9 @@ def training_model(x, y):
 
 
 if __name__ == '__main__':
-   top, pep = parse_data("biggerset.txt")
+   top, pep = parse_data("euk-3line.txt")
    dicti = encode_aa()
-   s = sliding_windows(pep, dicti, 27)
+   s = sliding_windows(pep, dicti, 39)
    e = y_vector(top)
    training_model(s, e)
 
