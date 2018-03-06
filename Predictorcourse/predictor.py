@@ -29,9 +29,9 @@ def parse_data(data):
             #print(topo)
             if len(topo) == len(temp_seq):
                 keys.append(temp_key)
-                pep.append(temp_seq[:70])
+                pep.append(temp_seq[:90])
                 #print(data_pepseq)
-                topology.append(topo[:70])
+                topology.append(topo[:90])
                 
                 
     #print(keys, topology)
@@ -76,9 +76,9 @@ def encode_aa():
     #print(bib1)
     return bib1
 
-def sliding_windows(data):
-    win_size = 9
-    pad = win_size//2
+def sliding_windows(data, dicti, wz):
+    
+    pad = wz//2
     windowlist= list()
     for seq in data:
         for i in range(len(seq)):
@@ -90,24 +90,21 @@ def sliding_windows(data):
         #handle the start:
             elif i<= pad:
                 the_window = seq[:i + pad +1]
-                needzeros = win_size - len(the_window)
+                needzeros = wz - len(the_window)
                 windowlist.append("0"*needzeros + the_window)               
         #handle the end:
             else:
                 #print(i)
                 the_window = seq[i-1:]
                 #print(the_window)
-                needzeros = win_size - len(the_window)
+                needzeros = wz - len(the_window)
                 #print(needzeros)
                 windowlist.append(the_window + "0"*needzeros)
     #print(len(windowlist))
                 
-    return windowlist
 
-
-def convert_windows(data, dicti):
     training_list = []
-    for elements in data:
+    for elements in windowlist:
         a = list()
         for letters in elements:
             b = dicti[letters]
@@ -117,7 +114,8 @@ def convert_windows(data, dicti):
         training_list.append(a)
 
     #print(len(training_list))
-    np.savez("xvector", training_list)
+    #np.savez("xvector", training_list)
+    
     return training_list
 
 
@@ -132,7 +130,7 @@ def y_vector(data):
             y = topology_to_numbers[letters]
             topology_prediction_nr.append(y)
     #print(topology_prediction_nr)
-    np.savez("yvector", topology_prediction_nr)
+    #np.savez("yvector", topology_prediction_nr)
     
     return topology_prediction_nr
 
@@ -147,23 +145,13 @@ def training_model(x, y):
    
     pickle.dump(model, open("model_predictore.p", "wb"))
 
-def accuracy(x, y):
-    for window in range(3,32,2):
-        clf = svm.SVC()
-        score = cross_val_score( clf, x, y, cv=3, verbose=True)
-        scores = np.average(score)
-    
-        print(scores, window)
-    
 
 
- 
 if __name__ == '__main__':
-   top, pep = parse_data("smalldataset.txt")
-   p = encode_aa()
-   c = sliding_windows(pep)
-   d = convert_windows(c,p)
+   top, pep = parse_data("biggerset.txt")
+   dicti = encode_aa()
+   s = sliding_windows(pep, dicti, 27)
    e = y_vector(top)
-   training_model(d, e)
-   accuracy(d,e)
+   training_model(s, e)
+
 
