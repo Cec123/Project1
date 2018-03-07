@@ -148,7 +148,7 @@ def training_model(x, y):
 if __name__ == '__main__':
    top, pep = parse_data("biggerdata2.txt")
    dicti = encode_aa()
-   s = sliding_windows(pep, dicti, 39)
+   s = sliding_windows(pep, dicti, 3)
    e = y_vector(top)
    training_model(s, e)
 
