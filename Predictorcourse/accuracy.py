@@ -19,7 +19,7 @@ def all_in_one(data, wz):
     
     return x, y
     
-def accuracy(data, wz):
+def accuracy(data):
     
     for wz in range(5,39,2):
         clf = svm.SVC()
@@ -31,6 +31,6 @@ def accuracy(data, wz):
 
 
 if __name__ == '__main__':
-    x, y = all_in_one("euk-3line.txt", 5)
-    accuracy("biggerset.txt", 5)
+    x, y = all_in_one("biggerdata2.txt", 5)
+    accuracy("biggerset.txt")
 

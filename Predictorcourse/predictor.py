@@ -11,9 +11,9 @@ def parse_data(data):
     topology = list()
     pep = list()
     keys =list()
-   
     temp_key = ''
     temp_seq = ''
+    
     for nr, line in enumerate(filen):
         if line.startswith(">") == True:
             key = line[1:-1]
@@ -22,8 +22,6 @@ def parse_data(data):
         elif nr %3 == 1:
                 temp_seq = line[:-1]
                 #print(temp_seq)
-
-        
         elif nr%3 ==2 and len(temp_seq)>0:
             topo = line[:-1]
             #print(topo)
@@ -34,7 +32,7 @@ def parse_data(data):
                 topology.append(topo[:80])
                 
                 
-    #print(keys, topology)
+    #print(keys, len(topology))
     return topology, pep
 
 
@@ -148,7 +146,7 @@ def training_model(x, y):
 
 
 if __name__ == '__main__':
-   top, pep = parse_data("euk-3line.txt")
+   top, pep = parse_data("biggerdata2.txt")
    dicti = encode_aa()
    s = sliding_windows(pep, dicti, 39)
    e = y_vector(top)
