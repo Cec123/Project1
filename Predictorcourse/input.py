@@ -56,7 +56,8 @@ def divide_slidingwindows(data, wz):
                 needzeros = wz - len(the_window)
                 #print(needzeros)
                 temp.append(the_window + "0"*needzeros)
-                windowlist.append(temp)
+        windowlist.append(temp)
+    #print(len(windowlist))
     
     return windowlist
 
@@ -96,15 +97,29 @@ def convert_windows(inputs):
         topology_prediction.append(f)
     return topology_prediction
 
-def protein_prediction(keys, listan):
-    dictionary = dict(zip(keys, listan))
-    print(dictionary)
-    return dictionary
+def protein_prediction(keys, listan, pep):
+    top= list()
+    for element in listan:
+        top.append("".join(element))
+    
+    with open("results.txt", 'w') as f:
+        for items in range(len(keys)):
+            f.write(keys[items] + "\n")
+            f.write(pep[items] + "\n")
+            f.write(top[items] + "\n")
+        f.close()
+         
+    #li= list(zip(pep, top))
+    #dictionary_prediction = dict(zip(keys, li))
+
+    #print(li)
+    #print(dictionary_prediction)
+    #return dictionary_prediction
 
 if __name__ == '__main__':
-   n, m = parse_newinput("oneprot.txt")
-   l = divide_slidingwindows(n, 3)
+   n, m = parse_newinput(input("Type the name of your file that you want to predict secondary structure for: "))
+   l = divide_slidingwindows(n, 65)
    o=convert_windows(l)
-   protein_prediction(m, o)
+   protein_prediction(m, o, n)
    
    

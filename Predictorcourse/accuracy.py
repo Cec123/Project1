@@ -1,11 +1,10 @@
 import predictor
 import numpy as np
+import matplotlib.pyplot as plt 
 from sklearn import svm
 import pickle
 from sklearn import model_selection
-from itertools import islice
 from sklearn.model_selection import cross_val_score
-
 
 def all_in_one(data, wz):
     parsing = predictor.parse_data(data)
@@ -18,15 +17,16 @@ def all_in_one(data, wz):
     #print(y)
     
     return x, y
-    
+
 def accuracy(data):
     
-    for wz in range(5,39,2):
+    for wz in range(5,80,4):
         clf = svm.SVC()
         X, Y = all_in_one(data, wz)
         scores = cross_val_score(clf, X, Y, cv=3, verbose=True)
         score = np.average(scores)
         print(wz, score)
+
 
 
 
