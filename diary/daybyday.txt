@@ -70,4 +70,9 @@ training and predicting in another file than the file with all my funcitons.
 - Trying new windowsizes, found that 65 is were it seems to peek.
 - Training with wz 65.
 - Fixing my predictor so that you can type your file in. 
-- Fixing my datasets (balancing biggerdata2.txt and adding squences to input to predictor). 
+- Fixing my datasets (balancing biggerdata2.txt and adding squences to input to predictor).
+
+2018-03-09
+- Tried random forest.
+- Saved 3- and 5-fold cross validation with corresponding windowsizes.
+- tried to change my parameters in the svm, but did not suceeed :( 
