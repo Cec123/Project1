@@ -2,6 +2,8 @@ import numpy as np
 from sklearn import svm
 import pickle
 from sklearn import model_selection
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
 from itertools import islice
 from sklearn.model_selection import cross_val_score
 
@@ -138,7 +140,8 @@ def training_model(x, y):
     #print(X)
     Y= y
     #print(Y)       
-    model = svm.SVC()
+    #model = svm.SVC()
+    model = RandomForestClassifier()
     model.fit(X, Y) 
    
     pickle.dump(model, open("model_predictore.p", "wb"))
@@ -148,7 +151,7 @@ def training_model(x, y):
 if __name__ == '__main__':
    top, pep = parse_data("biggerdata2.txt")
    dicti = encode_aa()
-   s = sliding_windows(pep, dicti, 65)
+   s = sliding_windows(pep, dicti, 17)
    e = y_vector(top)
    training_model(s, e)
 
