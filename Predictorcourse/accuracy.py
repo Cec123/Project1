@@ -19,14 +19,17 @@ def all_in_one(data, wz):
     return x, y
 
 def accuracy(data):
-    
-    for wz in range(5,80,4):
-        clf = svm.SVC()
-        X, Y = all_in_one(data, wz)
-        scores = cross_val_score(clf, X, Y, cv=3, verbose=True)
-        score = np.average(scores)
-        print(wz, score)
-
+    with open("accresult5.txt", "w") as f:
+        for wz in range(5,80,4):
+            clf = svm.SVC()
+            X, Y = all_in_one(data, wz)
+            scores = cross_val_score(clf, X, Y, cv=5, verbose=True)
+            score = np.average(scores)
+            print(wz, score)
+            f.write("wz:" + str(wz) + "\n")
+            f.write("score:" + str(score) + "\n")
+        f.close()
+        
 
 
 
