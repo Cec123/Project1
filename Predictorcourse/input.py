@@ -80,15 +80,19 @@ def convert_windows(inputs):
     #print(len(listan))
         
     pred_list=list()
+    
     for element in listan:
         x= np.array(element)
     #print(len(x))
         result = my_model.predict(x)
         #print(result)
         pred_list.append(result)
+     
+        
 
-    numbers_to_topology = {1:"M", 2:"S"}
+    numbers_to_topology = {1:"T", 2:".", 3:"t", 4:"S"}
     topology_prediction = list()
+   
 
     for arrays in pred_list:
         f =list()
@@ -108,19 +112,14 @@ def protein_prediction(keys, listan, pep):
             f.write(keys[items] + "\n")
             f.write(pep[items] + "\n")
             f.write(top[items] + "\n")
-        f.close()
-         
-    #li= list(zip(pep, top))
-    #dictionary_prediction = dict(zip(keys, li))
 
-    #print(li)
-    #print(dictionary_prediction)
-    #return dictionary_prediction
+        f.close()
+
 
 if __name__ == '__main__':
    n, m = parse_newinput(input("Type the name of your file that you want to predict secondary structure for: "))
    l = divide_slidingwindows(n, 17)
    o=convert_windows(l)
-   protein_prediction(m, o, n)
+   protein_prediction(m, o, n,)
    
    

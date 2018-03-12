@@ -17,23 +17,47 @@ def all_in_one(data, wz):
     #print(y)
     
     return x, y
-
+"""
 def accuracy(data):
     with open("accresult5.txt", "w") as f:
-        for wz in range(5,80,4):
+        for wz in range(5,39,4):
             clf = svm.SVC()
             X, Y = all_in_one(data, wz)
             scores = cross_val_score(clf, X, Y, cv=5, verbose=True)
             score = np.average(scores)
-            print(wz, score)
             f.write("wz:" + str(wz) + "\n")
             f.write("score:" + str(score) + "\n")
         f.close()
+"""    
+
+def curve(data):
+    windows =list()
+    cross=list()
+    with open(data, "r") as f:
+        for nr, line in enumerate(f):
+            linjer = line[:-1]
+            #print(linjer)
+            if line.startswith("wz"):
+                linefix=linjer.split(":")
+                value = linefix[1]
+                windows.append(value)
+            elif line.startswith("score"):
+                linefix=linjer.split(":")
+                value =linefix[1]
+                cross.append(value)
+    print(windows, cross)
         
+                
+    plt.plot(windows,(cross)
+    plt.show()
+    
+       
+    
 
 
 
 if __name__ == '__main__':
     x, y = all_in_one("biggerdata2.txt", 5)
-    accuracy("biggerset.txt")
+    #accuracy("biggerdata2.txt")
+    curve("accresult5.txt")
 

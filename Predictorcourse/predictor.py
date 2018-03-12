@@ -6,6 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import make_classification
 from itertools import islice
 from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GridSearchCV
 
 def parse_data(data):
     filen = open(data, "r")
@@ -29,9 +30,9 @@ def parse_data(data):
             #print(topo)
             if len(topo) == len(temp_seq):
                 keys.append(temp_key)
-                pep.append(temp_seq[:80])
+                pep.append(temp_seq[:40])
                 #print(data_pepseq)
-                topology.append(topo[:80])
+                topology.append(topo[:40])
                 
                 
     #print(keys, len(topology))
@@ -120,7 +121,7 @@ def sliding_windows(data, dicti, wz):
 
 
 def y_vector(data):
-    topology_to_numbers = {"T":1,".":1,"t":1,"S":2}
+    topology_to_numbers = {"T":1,".":2,"t":3,"S":4}
     topology_prediction_nr = list()
     #print(data_topology)
 
@@ -137,13 +138,17 @@ def y_vector(data):
 
 def training_model(x, y):
     X= np.array(x)
-    #print(X)
     Y= y
-    #print(Y)       
-    #model = svm.SVC()
-    model = RandomForestClassifier()
-    model.fit(X, Y) 
-   
+    Cs = [0.001, 0.01, 0.1, 1, 10]
+    gammas=[0.001, 0.01, 0.1,1]
+    kernels = ["rbf","linear"]
+    param_grid= {"C":Cs, "gamma":gammas, "kernel":kernels}
+    #grid_search = GridSearchCV(svm.SVC(), param_grid, cv=5)
+    #grid_search.fit(X,Y)
+    #print(grid_search.best_params_)
+    model = svm.SVC(C=10, gamma= 0.1, kernel="rbf")
+    model.fit(X,Y)
+
     pickle.dump(model, open("model_predictore.p", "wb"))
 
 
