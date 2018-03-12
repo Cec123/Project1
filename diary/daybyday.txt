@@ -76,3 +76,11 @@ training and predicting in another file than the file with all my funcitons.
 - Tried random forest.
 - Saved 3- and 5-fold cross validation with corresponding windowsizes.
 - tried to change my parameters in the svm, but did not suceeed :( 
+
+2018-03-12
+- did GridSearch and found best parameters when using svm
+- changed my predictor into 4 state instead of 2
+- looked into how to create confusion matrix and started trying to make one
+- tried to plot accuracy against windowsizes 5-39, as material for the report.
+- Made a mindmap over the contents of my report 
+
