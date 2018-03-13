@@ -84,3 +84,8 @@ training and predicting in another file than the file with all my funcitons.
 - tried to plot accuracy against windowsizes 5-39, as material for the report.
 - Made a mindmap over the contents of my report 
 
+2018-03-13
+- created function for and calculated q3 
+- created data for psiblast, bashscript for doing psiblast on dataset (did not succeed)
+- Creating a graph viewing correlation of accuracy of model and different windowsizes
+- Report writing
