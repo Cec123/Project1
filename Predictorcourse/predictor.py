@@ -36,7 +36,7 @@ def parse_data(data):
                 
                 
     #print(keys, len(topology))
-    return topology, pep
+    return topology, pep, keys
 
 
 def encode_aa():
@@ -141,22 +141,21 @@ def training_model(x, y):
     Y= y
     Cs = [0.001, 0.01, 0.1, 1, 10]
     gammas=[0.001, 0.01, 0.1,1]
-    kernels = ["rbf","linear"]
-    param_grid= {"C":Cs, "gamma":gammas, "kernel":kernels}
-    #grid_search = GridSearchCV(svm.SVC(), param_grid, cv=5)
-    #grid_search.fit(X,Y)
-    #print(grid_search.best_params_)
-    model = svm.SVC(C=10, gamma= 0.1, kernel="rbf")
-    model.fit(X,Y)
+    param_grid= {"C":Cs, "gamma":gammas}
+    grid_search = GridSearchCV(svm.SVC(kernel="rbf"), param_grid, cv=5)
+    grid_search.fit(X,Y)
+    print(grid_search.best_params_)
+    #model = svm.SVC(C=10, gamma= 0.01, kernel="rbf")
+    #model.fit(X,Y)
 
-    pickle.dump(model, open("model_predictore.p", "wb"))
+    #pickle.dump(model, open("model_predictore.p", "wb"))
 
 
 
 if __name__ == '__main__':
-   top, pep = parse_data("biggerdata2.txt")
+   top, pep, keys = parse_data("biggerdata2.txt")
    dicti = encode_aa()
-   s = sliding_windows(pep, dicti, 17)
+   s = sliding_windows(pep, dicti, 19)
    e = y_vector(top)
    training_model(s, e)
 
