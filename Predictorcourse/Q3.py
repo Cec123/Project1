@@ -21,7 +21,7 @@ def q3(file1, file2):
                 count.append("1")
     Q3= (len(count)/len(ytrue1[0]))
 
-    print(Q3)
+    #print(Q3)
     #print(len(count))
     #print((len(ytrue1[0])))
 
