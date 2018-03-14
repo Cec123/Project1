@@ -19,9 +19,9 @@ def q3(file1, file2):
         for nr2, letters2 in enumerate(pre1[0]):
             if nr1 == nr2 and letter1 == letters2:
                 count.append("1")
-    Q3= (len(count)/len(ytrue1[0]))
+    Q3= ((len(count)/len(ytrue1[0]))*100)
 
-    #print(Q3)
+    print(Q3)
     #print(len(count))
     #print((len(ytrue1[0])))
 
