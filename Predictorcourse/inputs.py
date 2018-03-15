@@ -14,15 +14,15 @@ def parse_newinput(inputs):
     keys_lista =list()
     
     with open(inputs, "r") as f:
-        file= f.readlines()       
+        file= f.readlines()
+        
     for nr, line in enumerate(file):
         if line.startswith(">")==True:
             keys_lista.append(line[1:-1])
-            #print(keys_lista)
+            
         else: 
             pep = line[:-1]
             data_pepseq.append(pep)
-            #print(data_pepseq)
     
     return data_pepseq, keys_lista
 
@@ -50,42 +50,31 @@ def divide_slidingwindows(data, wz):
                 temp.append("0"*needzeros + the_window)               
         #handle the end:
             else:
-                #print(i)
                 the_window = seq[i-1:]
-                #print(the_window)
                 needzeros = wz - len(the_window)
-                #print(needzeros)
                 temp.append(the_window + "0"*needzeros)
         windowlist.append(temp)
-    #print(len(windowlist))
     
     return windowlist
 
 def convert_windows(inputs):
     listan =list()    
     for elements in inputs:
-        #print(elements)
         temp2=list()
         for win in elements:
-            #print(win)
             a=list()
             dictionary = predictor.encode_aa()
             for letters in win:
                 b= dictionary[letters]
                 a.extend(b)
-                #print(a)
             temp2.append(a)
-            #print(temp2)
         listan.append(temp2)           
-    #print(len(listan))
         
     pred_list=list()
     
     for element in listan:
         x= np.array(element)
-    #print(len(x))
         result = my_model.predict(x)
-        #print(result)
         pred_list.append(result)
      
         

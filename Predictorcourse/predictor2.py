@@ -10,7 +10,6 @@ from sklearn.model_selection import GridSearchCV
 
 def parse_data(data):
     filen = open(data, "r")
-    #print(filen)
     topology = list()
     pep = list()
     keys =list()
@@ -21,21 +20,21 @@ def parse_data(data):
         if line.startswith(">") == True:
             key = line[1:-1]
             temp_key = key
-            #print(temp_key)
+
         elif nr %3 == 1:
-                temp_seq = line[:-1]
-                #print(temp_seq)
+                linefix= line.strip("\n")
+                temp_seq = linefix
+
         elif nr%3 ==2 and len(temp_seq)>0:
-            topo = line[:-1]
-            #print(topo)
+            linefix2 = line.strip("\n")
+            topo = linefix2
+
             if len(topo) == len(temp_seq):
                 keys.append(temp_key)
                 pep.append(temp_seq[:40])
-                #print(data_pepseq)
+
                 topology.append(topo[:40])
                 
-                
-    #print(keys, len(topology))
     return topology, pep, keys
 
 
@@ -56,7 +55,7 @@ def encode_aa():
 #take out each row, put each row in a dictionary later with its aa as key.
     for arrays in matris:       
         listakod.append(arrays)
-    #print(listakod)
+        
     bib1= dict(zip(key, listakod))
     bib1["0"] = np.zeros(20, dtype=int)
     bib1["X"] = 1/20*np.ones(20, dtype=int)
@@ -74,7 +73,6 @@ def encode_aa():
     C= bib1.get("C")
     bib1["U"] = C
 
-    #print(bib1)
     return bib1
 
 def sliding_windows(data, dicti, wz):
@@ -95,13 +93,10 @@ def sliding_windows(data, dicti, wz):
                 windowlist.append("0"*needzeros + the_window)               
         #handle the end:
             else:
-                #print(i)
                 the_window = seq[i-1:]
-                #print(the_window)
                 needzeros = wz - len(the_window)
-                #print(needzeros)
                 windowlist.append(the_window + "0"*needzeros)
-    #print(len(windowlist))
+
                 
 
     training_list = []
@@ -109,13 +104,10 @@ def sliding_windows(data, dicti, wz):
         a = list()
         for letters in elements:
             b = dicti[letters]
-    
             a.extend(b)
         
         training_list.append(a)
 
-    #print(len(training_list))
-    #np.savez("xvector", training_list)
     
     return training_list
 
@@ -123,16 +115,12 @@ def sliding_windows(data, dicti, wz):
 def y_vector(data):
     topology_to_numbers = {"T":1,".":2,"t":3,"S":4}
     topology_prediction_nr = list()
-    #print(data_topology)
 
     for elements in data:
         for letters in elements:
-            #print(letters)
             y = topology_to_numbers[letters]
             topology_prediction_nr.append(y)
-    #print(topology_prediction_nr)
-    #np.savez("yvector", topology_prediction_nr)
-    
+
     return topology_prediction_nr
 
 

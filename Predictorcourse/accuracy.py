@@ -8,13 +8,9 @@ from sklearn.model_selection import cross_val_score
 
 def all_in_one(data, wz):
     parsing = predictor.parse_data(data)
-    #print(parsing[1])
     dictionary = predictor.encode_aa()
-    #print(dictionary)
     x = predictor.sliding_windows(parsing[1], dictionary, wz)
-    #print(len(sliding))
     y = predictor.y_vector(parsing[0])
-    #print(y)
     
     return x, y
 
@@ -36,7 +32,6 @@ def curve(data):
     with open(data, "r") as f:
         for nr, line in enumerate(f):
             linjer = line[:-1]
-            #print(linjer)
             if line.startswith("wz"):
                 linefix=linjer.split(":")
                 value = linefix[1]
@@ -48,7 +43,6 @@ def curve(data):
     
     xdata= np.array(windows)
     ydata= np.array(cross)
-    #print(xdata, ydata)
         
                 
     plt.scatter(xdata,ydata, alpha=0.5, s=200)
@@ -63,6 +57,6 @@ def curve(data):
 
 if __name__ == '__main__':
     x, y = all_in_one("biggerdata2.txt", 5)
-    #accuracy("biggerdata2.txt")
+    accuracy("biggerdata2.txt")
     curve("accresult5.txt")
 
