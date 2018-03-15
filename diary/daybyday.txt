@@ -89,3 +89,16 @@ training and predicting in another file than the file with all my funcitons.
 - created data for psiblast, bashscript for doing psiblast on dataset (did not succeed)
 - Creating a graph viewing correlation of accuracy of model and different windowsizes
 - Report writing
+
+2018-03-14
+- creating psst:s
+- creating pssm model
+-predicting new pssm input using the new model
+- calculating Q3 for the new input
+- starting writing explanations for my scripts and files in README.md
+
+2018-03-15
+- creating confusion matrix and computing mcc for all my three models.
+- Correcting the Q3 calculations
+- Writing the README, everything is now explained there, I just need to read it through for grammars and stuff.
+
