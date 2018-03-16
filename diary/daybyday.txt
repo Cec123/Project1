@@ -102,3 +102,7 @@ training and predicting in another file than the file with all my funcitons.
 - Correcting the Q3 calculations
 - Writing the README, everything is now explained there, I just need to read it through for grammars and stuff.
 
+2018-03-16
+-Journal club, meetings
+-Fixing with accuracies, windowsizess for pssm-model and random forest model, README and report writing (not finished)
+
