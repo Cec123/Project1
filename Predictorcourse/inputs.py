@@ -21,7 +21,8 @@ def parse_newinput(inputs):
             keys_lista.append(line[1:-1])
             
         else: 
-            pep = line[:-1]
+            linefix= line.strip("\n")
+            pep = linefix
             data_pepseq.append(pep)
     
     return data_pepseq, keys_lista

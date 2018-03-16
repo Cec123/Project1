@@ -1,3 +1,4 @@
+import accuracy
 import sys 
 sys.path.insert(0,"../")
 import numpy as np
@@ -5,6 +6,8 @@ from sklearn import svm
 from sklearn.model_selection import train_test_split
 import pickle
 import joblib
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import cross_val_score
 
 def parse(data):
     filen = open(data, "r")
@@ -61,7 +64,7 @@ def parsing_pssm(train_list, wz):
     
     return np.vstack(arrays)
 
-def training_y(top, o):
+def training_y(top, o, data):
     
     topnr = {"T":1,".":2,"t":3,"S":4}
     y_train = list()
@@ -69,14 +72,27 @@ def training_y(top, o):
         for letters in elements:
             y = topnr[letters]
             y_train.append(y)
+    Cs = [0.001, 0.01, 0.1, 1, 10]
+    gammas=[0.001, 0.01, 0.1,1]
+    #param_grid= {"C":Cs, "gamma":gammas}
+    #grid_search = GridSearchCV(svm.SVC(kernel="rbf"), param_grid, cv=5)
+    #grid_search.fit(o,y_train)
+    #print(grid_search.best_params_)
+    with open("accresult_pssm.txt", "w") as f:
+        for wz in range(5,39,2):
+            clf = svm.SVC(C=10. gamma=1)
+            scores = cross_val_score(clf, o, y_train, cv=5, verbose=True)
+            score = np.average(scores)
+            f.write("wz:" + str(wz) + "\n")
+            f.write("score:" + str(score) + "\n")
+        f.close()
+    #name_of_file = "pssm_model2.sav.xz"
+    #joblib.dump(clf, open(name_of_file, "wb"), compress=9)
 
-
-    clf = svm.SVC(C=10, gamma=0.01)
-    clf.fit(o, y_train)
-    name_of_file = "pssm_model2.sav.xz"
-    joblib.dump(clf, open(name_of_file, "wb"), compress=9)
-      
-        
+    a = accuracy.curve(data)
+    print(a)
+    
+    
 
 
 
@@ -86,4 +102,4 @@ if __name__ == '__main__':
     top, pep, key = parse("datapsi.txt")
     train_list=training_pssm(key, top, 3)
     o = parsing_pssm(train_list,3)
-    training_y(top, o)
+    training_y(top, o,"accresult_pssm.txt")
