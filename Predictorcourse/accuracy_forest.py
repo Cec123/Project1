@@ -17,14 +17,13 @@ def all_in_one(data, wz):
 def accuracy(data):
     with open("accresult_forest.txt", "w") as f:
         for wz in range(5,39,2):
-            clf = RandomForestClassifier(max_depth=2, random_state=0)
+            clf = RandomForestClassifier()
             X, Y = all_in_one(data, wz)
             scores = cross_val_score(clf, X, Y, cv=5, verbose=True)
             score = np.average(scores)
             f.write("wz:" + str(wz) + "\n")
             f.write("score:" + str(score) + "\n")
-        f.close()
-  
+        f.close() 
 
 def curve(data):
     windows =list()
@@ -58,5 +57,5 @@ def curve(data):
 if __name__ == '__main__':
     x, y = all_in_one("biggerdata2.txt", 5)
     accuracy("biggerdata2.txt")
-    curve("accresult5.txt")
+    curve("accresult_forest.txt")
 

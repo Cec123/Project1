@@ -37,7 +37,7 @@ def parse(data):
     
     return top, pep, key
 
-def training_pssm(key, top, wz):
+def training_pssm(key, top):
     
     train_list= list()
     for name in key:
@@ -78,21 +78,10 @@ def training_y(top, o, data):
     #grid_search = GridSearchCV(svm.SVC(kernel="rbf"), param_grid, cv=5)
     #grid_search.fit(o,y_train)
     #print(grid_search.best_params_)
-    with open("accresult_pssm.txt", "w") as f:
-        for wz in range(5,39,2):
-            clf = svm.SVC(C=10. gamma=1)
-            scores = cross_val_score(clf, o, y_train, cv=5, verbose=True)
-            score = np.average(scores)
-            f.write("wz:" + str(wz) + "\n")
-            f.write("score:" + str(score) + "\n")
-        f.close()
-    #name_of_file = "pssm_model2.sav.xz"
-    #joblib.dump(clf, open(name_of_file, "wb"), compress=9)
-
-    a = accuracy.curve(data)
-    print(a)
-    
-    
+    clf=svm.SVC(C=10, gamma=1)
+    clf.fit(o,y_train)
+    name_of_file = "pssm_model2.sav.xz"
+    joblib.dump(clf, open(name_of_file, "wb"), compress=9)
 
 
 
@@ -100,6 +89,6 @@ def training_y(top, o, data):
 
 if __name__ == '__main__': 
     top, pep, key = parse("datapsi.txt")
-    train_list=training_pssm(key, top, 3)
+    train_list=training_pssm(key, top)
     o = parsing_pssm(train_list,3)
     training_y(top, o,"accresult_pssm.txt")

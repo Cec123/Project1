@@ -128,7 +128,7 @@ def training_model(x, y):
     X= np.array(x)
     Y= y
     
-    model = RandomForestClassifier(max_depth=2, random_state=0)
+    model = RandomForestClassifier()
     model.fit(X,Y)
 
     pickle.dump(model, open("model_predictore2.p", "wb"))
@@ -138,7 +138,7 @@ def training_model(x, y):
 if __name__ == '__main__':
    top, pep, keys = parse_data("biggerdata2.txt")
    dicti = encode_aa()
-   s = sliding_windows(pep, dicti, 19)
+   s = sliding_windows(pep, dicti, 21)
    e = y_vector(top)
    training_model(s, e)
 

@@ -54,5 +54,5 @@ def confusionm(Q3,pre1, ytrue1):
         f.write("Confusionmatrix(x=true,y=predicted, 1-4):"+"\n" + str(confusionmatrix))
         f.close()
 if __name__ == '__main__':
-    a,b,c=q3("result_pssm.txt", "ytrue_pssm.txt")
+    a,b,c=q3("result_pssm.txt", "ytrue2_pssm.txt")
     confusionm(a,b,c)
