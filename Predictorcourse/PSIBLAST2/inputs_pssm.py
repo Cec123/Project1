@@ -39,5 +39,5 @@ def convertion(predicted):
 
 
 if __name__ == '__main__':
-    predicted=parse_newinput(">11SB_CUCMA.fasta.pssm",3)
+    predicted=parse_newinput(">11SB_CUCMA.fasta.pssm",5)
     convertion(predicted)

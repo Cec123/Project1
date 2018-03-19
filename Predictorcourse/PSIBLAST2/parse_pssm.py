@@ -19,20 +19,23 @@ def parse(data):
     
     for nr, line in enumerate(filen):
         if line.startswith(">") == True:
-            keys = line[:-1]
+            linefix= line.strip("\n")
+            keys = linefix
             temp_key = keys
             
         elif nr %3 == 1:
-                temp_seq = line[:-1]
+                linefix2= line.strip("\n")
+                temp_seq = linefix2
                 
         elif nr%3 ==2 and len(temp_seq)>0:
-            topo = line[:-1]
+            linefix3= line.strip("\n")
+            topo = linefix3
 
             if len(topo) == len(temp_seq):
                 key.append(temp_key)
                 pep.append(temp_seq)
                 top.append(topo)
-
+    
 
     
     return top, pep, key
@@ -90,5 +93,5 @@ def training_y(top, o, data):
 if __name__ == '__main__': 
     top, pep, key = parse("datapsi.txt")
     train_list=training_pssm(key, top)
-    o = parsing_pssm(train_list,3)
+    o = parsing_pssm(train_list,5)
     training_y(top, o,"accresult_pssm.txt")

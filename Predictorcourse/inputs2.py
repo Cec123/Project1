@@ -105,7 +105,7 @@ def protein_prediction(keys, listan, pep):
 
 if __name__ == '__main__':
    n, m = parse_newinput(input("Type the name of your file that you want to predict secondary structure for: "))
-   l = divide_slidingwindows(n, 21)
+   l = divide_slidingwindows(n, 19)
    o=convert_windows(l)
    protein_prediction(m, o, n,)
    
