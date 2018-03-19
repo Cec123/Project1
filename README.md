@@ -5,7 +5,7 @@ Cecilia FurugŒrd
 In Project1 three predictors are created for distinguishing weather an amino acid, of a protein, is in the signalpeptide region or in the sequence of the mature protein. The predictors make four states predictions based on the secondary structures for signal peptides at the SignalP server; signal peptide amino acid (S), transmembrane amino acid experimentally determined (T), transmembrane not experimentally determined (t) and amino acid part of another secondary structure (.)
 
 Enter Predictorcourse:
-- predictor.py; 
+- predictor.py; \n
 A 3-line file is parsed. The file used is biggerdata2.txt and contains protein ID (starting with">"), the peptidesequence for the proteins and the topology sequence for the proteins. The file biggerdata.txt has 212 eukaryotic proteins taken from euk-3line.txt, whereof 106 are non-signalpeptides and 106 are signalpeptides. (NOTE! sequence homology was not taking in account when making dataset, which makes the predictor biased towards a certain pattern and decreases its accuracy when predicting proteins that are evolutionary distant from the sequences in the dataset.)
 
 Further, the amino acid are encoded into arrays of 20 numbers. encoded so that each amino acid had an identity code with the length of 20 numbers. The code consisted of zeros for all positions but one, which was set to Ò1Ó. The position for the Ò1Ó in the row of 20, was unique for each amino acid, giving rise of twenty unique codes with. Zeros and ones were used in order to avoid that some amino acids had a higher weight than others when presenting the sliding windows in encoded form, for the svm. Amino acid ÒBÓ was handled as having 50 % chance of being an aspartate or an asparagine and this was implemented by encoding ÒBÓ by splitting the Ò1Ó into two positions (the position for asparagine and aspartate) having the value of 0.5 each. The same strategy was used for encoding amino acid ÒZÓ, but with the value of 0.5 at the positions of glutamate and glutamine instead. The amino acid ÒXÓ was encoded as having the same possibility of being any amino acid, hence the value of 0.05 was set to each of the 20 positions in the code for ÒXÓ. Having the protein sequences in encoded, each sequence was the split into sliding windows with a window size of 19 amino acids. All encoded amino acids in their siding windows form was was arrayed into the same X-vector, used as x when straining the model.
@@ -22,7 +22,7 @@ Two predictor scripts are held, whereof predictor.py the model is trained using 
 In order to find the best window size inspiration was taken from the paper "Identification of prokaryotic and eukaryotic signal peptides and prediction of their cleavage sites" by Von Heijne et al. (1997). Thereby, windowsizes of 5-39 residues were tested using crossvalidation of 3-fold ("accuracy.py" using biggerdata2.txt as input file). The accuracy of different windowsizes where then plotted, revealing that a windowsize of 19 aminoacids give rise of the highest accuracy. Therefore the windowsize was set to 19 aminoacids when training.
 How the accuracy changes with the windowsize is also saved in several files; accresult.txt (accuracy and corresponding windowsize using svm and 3-foldcrossvalidation, found in Predictorcourse/bin), accresult5.txt (accuracy and corresponding windowsize using svm and 5-foldcrossvalidation).
 
--accuracy_forest.py;
+- accuracy_forest.py;
 The accuracy of the random forest based model is viewed in the same fashion as the first model. The results of the accuracies held for each window size is saved in the file accresult_randomforest.txt.
 
 - inputs.py;
@@ -34,7 +34,7 @@ The random forest model is used to predict new topologies. Also here the oneprot
 - Q3.py;
 Here is the Q3-score of the prediction using the svm-model (model_predictore.p) calculated using the file results.txt (predicted topology) and y_true.txt (the true topology taken from biggerdata2.txt). Also, the MCC is calculated as well as a confusion matrix. All is saved in the file result_svm_tweaked_parameters.txt.
 
-Q3b.py;
+- Q3b.py;
 Here the Q3-score is calculated for the model trained with random forest (model_predictore2.p). Files used for this are results2.txt and y_true.txt. Also here the MCC is calculated and a confusion matrix is computed. The output of Q3-score, MCC and the confusion matrix are saved in the file result_randomforest.txt. 
 
 - psiblast.py;
@@ -53,13 +53,13 @@ Each pssm is parsed taking out column 22-42, since these are the part of the pss
 In this script the parameters C and gamma was also tested in the same intervals as before, using GridSearchCV. After testing, the parameters were set; C=10 and gamma=1, since this was giving rise of a higher accuracy of the model.
 
 
-accuracy_pssm.py;
+- accuracy_pssm.py;
 In this script the accuracy of different window sizes were tested, using 5-fold cross validation. This was saved in the file accresult_pssm.txt and the graph where the accuracies was plotted against corresponding window sizes,  were printed when running the script.
 
-inputs_pssm; 
+- inputs_pssm; 
 The pssm-model is used in this file, predicting the secondary structure of the protein 11SB_CUCMA (used file for input is >11SB_CUCMA.fasta.pssm). The peptide sequence is taken from biggerdata2.txt, and the pssm was created in the same stage as when creating the pssm:s for training the model, but the pssm for >11SB_CUCMA was then excluded when it came to the actual training of the model. The predicted output is saved in the file result_pssm.txt.
 
-Q3c.py;
+- Q3c.py;
 The accuracy of the prediction using the pssm-model is calculated here using the predicted output i result_pssm.txt and the true topology obtained from biggerdata2.txt and saved in the file ytrue2_pssm.txt. Also a confusion matrix and MCC is computed. All outputs are saved in the file result_svm_model_pssm.txt. (NOTE! Both MCC and Q3 are only tested on one protein here).
 
 
